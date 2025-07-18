@@ -3,6 +3,7 @@ import { Calendar, TrendingUp, TrendingDown, Award, Target, Zap, Filter, Downloa
 import { getCalculationHistory, downloadCSV } from '../utils/storage';
 import { format, subDays, subWeeks, subMonths, isWithinInterval, startOfDay, endOfDay } from 'date-fns';
 import AnimatedLineChart from './AnimatedLineChart';
+import SocialShare from './SocialShare';
 
 interface TimeRange {
   id: string;
@@ -534,10 +535,13 @@ export default function HistorySection() {
                   <span>Export Data</span>
                 </button>
                 
-                <button className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                  <Share2 className="w-5 h-5" />
-                  <span>Share Progress</span>
-                </button>
+                <SocialShare 
+                  userFootprint={calculations.length > 0 ? calculations[calculations.length - 1].footprint : 0}
+                  userProfile={{
+                    achievements: achievements,
+                    streaks: { current: 7, longest: 14, lastUpdate: new Date() }
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -801,9 +805,13 @@ export default function HistorySection() {
             </div>
             
             <div className="pt-6">
-              <button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-8 py-3 rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 transform hover:scale-105">
-                Share Your Progress
-              </button>
+              <SocialShare 
+                userFootprint={calculations.length > 0 ? calculations[calculations.length - 1].footprint : 0}
+                userProfile={{
+                  achievements: achievements,
+                  streaks: { current: 7, longest: 14, lastUpdate: new Date() }
+                }}
+              />
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import EnhancedCalculator from './components/EnhancedCalculator';
 import CityComparison from './components/CityComparison';
@@ -10,11 +11,24 @@ import HabitTracker from './components/HabitTracker';
 import EducationHub from './components/EducationHub';
 import HistorySection from './components/HistorySection';
 import PrivacySettings from './components/PrivacySettings';
+import SharePage from './components/SharePage';
+import SocialShare from './components/SocialShare';
 import { UserProfile, Achievement, HabitEntry } from './types';
 import { checkAchievements } from './utils/achievements';
 import { hasUserConsent } from './utils/storage';
 
 function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/share/:shareId" element={<SharePage />} />
+        <Route path="/*" element={<MainApp />} />
+      </Routes>
+    </Router>
+  );
+}
+
+function MainApp() {
   const [activeTab, setActiveTab] = useState('calculator');
   const [userFootprint, setUserFootprint] = useState(10000); // Default 10 tons CO2
   const [userProfile, setUserProfile] = useState<UserProfile>({
