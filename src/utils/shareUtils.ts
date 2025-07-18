@@ -67,50 +67,6 @@ export function updateMetaTags(metadata: ShareMetadata) {
   updateMetaTag('og:image:alt', 'Climate progress visualization showing carbon footprint reduction', true);
 }
 
-export function generateSocialShareText(shareData: any): { [platform: string]: string } {
-  const improvements = shareData.improvements > 0 ? `${shareData.improvements}% improvement` : 'started tracking';
-  const footprint = Math.round(shareData.footprint / 1000 * 10) / 10;
-  
-  return {
-    twitter: `🌱 I've ${improvements} in my carbon footprint (${footprint}t CO₂/year) and earned ${shareData.achievements} climate achievements! 
-
-Join me in fighting climate change 🌍 #ClimateAction #CarbonFootprint #Sustainability`,
-
-    facebook: `I wanted to share my climate progress with you! 🌱
-
-I've been tracking my carbon footprint and made some real progress:
-• ${footprint}t CO₂ annual footprint
-• ${improvements} 
-• ${shareData.achievements} achievements unlocked
-• ${shareData.streak} day streak
-
-Every action counts in fighting climate change. Want to join me?`,
-
-    linkedin: `Excited to share my sustainability journey! 🌱
-
-I've been using CarbonTracker to monitor my environmental impact:
-✅ ${footprint}t CO₂ annual footprint
-✅ ${improvements}
-✅ ${shareData.achievements} climate achievements
-✅ ${shareData.streak} day consistency streak
-
-Climate action starts with awareness. What steps are you taking to reduce your environmental impact?
-
-#Sustainability #ClimateAction #CarbonFootprint #EnvironmentalResponsibility`,
-
-    instagram: `🌱 Climate progress update! 
-
-${improvements} in my carbon footprint journey:
-• ${footprint}t CO₂/year
-• ${shareData.achievements} achievements 🏆
-• ${shareData.streak} day streak 🔥
-
-Every small action makes a difference for our planet 🌍
-
-#ClimateAction #Sustainability #CarbonFootprint #EcoFriendly #GreenLiving #ClimateChange #Environment #GoGreen`
-  };
-}
-
 export function trackShareEvent(platform: string, shareId: string) {
   // Analytics tracking - replace with your analytics service
   if (typeof gtag !== 'undefined') {

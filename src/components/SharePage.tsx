@@ -192,18 +192,6 @@ export default function SharePage() {
                 <ExternalLink className="w-5 h-5" />
                 <span>Start Tracking Now</span>
               </button>
-              
-              <button
-                onClick={() => navigator.share?.({ 
-                  title: 'Check out my climate progress!',
-                  text: `I've been tracking my carbon footprint and made ${shareData.improvements}% improvement! Join me in fighting climate change.`,
-                  url: window.location.href 
-                }) || navigator.clipboard.writeText(window.location.href)}
-                className="flex items-center justify-center space-x-2 px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold"
-              >
-                <Share2 className="w-5 h-5" />
-                <span>Share This</span>
-              </button>
             </div>
           </div>
         </div>

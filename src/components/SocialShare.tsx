@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Share2, Download, Copy, Check, Twitter, Facebook, Linkedin, Instagram, ExternalLink } from 'lucide-react';
+import { Share2, Download, Copy, Check, ExternalLink } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { getCalculationHistory } from '../utils/storage';
 import { format } from 'date-fns';
@@ -85,27 +85,6 @@ export default function SocialShare({ userFootprint, userProfile }: SocialShareP
     }
   };
 
-  const shareToSocial = (platform: string) => {
-    if (!shareUrl) return;
-
-    const text = `🌱 I've reduced my carbon footprint by ${improvements}% and achieved ${userProfile.achievements.length} climate goals! Join me in making a difference for our planet. #ClimateAction #CarbonFootprint #Sustainability`;
-    
-    const urls = {
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-      instagram: shareUrl // Instagram doesn't support direct URL sharing
-    };
-
-    if (platform === 'instagram') {
-      // For Instagram, we'll copy the text and open Instagram
-      navigator.clipboard.writeText(`${text}\n\n${shareUrl}`);
-      alert('Text copied! Paste it in your Instagram post.');
-      window.open('https://www.instagram.com/', '_blank');
-    } else {
-      window.open(urls[platform as keyof typeof urls], '_blank', 'width=600,height=400');
-    }
-  };
 
   return (
     <>
@@ -129,8 +108,8 @@ export default function SocialShare({ userFootprint, userProfile }: SocialShareP
 
       {/* Share Modal */}
       {showShareModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl">
             {/* Share Card Preview */}
             <div ref={shareCardRef} className="relative">
               <ShareCard 
@@ -142,73 +121,42 @@ export default function SocialShare({ userFootprint, userProfile }: SocialShareP
             </div>
 
             {/* Share Options */}
-            <div className="p-6 border-t border-gray-100">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Share Your Achievement</h3>
+            <div className="p-8 border-t border-gray-100">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Share Your Progress</h3>
               
               {/* Copy Link */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="mb-8">
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
                   Shareable Link
                 </label>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3">
                   <input
                     type="text"
                     value={shareUrl || ''}
                     readOnly
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-sm"
+                    className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl bg-gray-50 text-sm font-medium focus:outline-none focus:border-blue-400 transition-colors"
                   />
                   <button
                     onClick={copyToClipboard}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"
+                    className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 flex items-center space-x-2 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
                   >
                     {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                     <span>{copied ? 'Copied!' : 'Copy'}</span>
                   </button>
                 </div>
-              </div>
-
-              {/* Social Media Buttons */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Share on Social Media
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <button
-                    onClick={() => shareToSocial('twitter')}
-                    className="flex items-center justify-center space-x-2 px-4 py-3 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors"
-                  >
-                    <Twitter className="w-4 h-4" />
-                    <span>Twitter</span>
-                  </button>
-                  <button
-                    onClick={() => shareToSocial('facebook')}
-                    className="flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    <Facebook className="w-4 h-4" />
-                    <span>Facebook</span>
-                  </button>
-                  <button
-                    onClick={() => shareToSocial('linkedin')}
-                    className="flex items-center justify-center space-x-2 px-4 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                    <span>LinkedIn</span>
-                  </button>
-                  <button
-                    onClick={() => shareToSocial('instagram')}
-                    className="flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-colors"
-                  >
-                    <Instagram className="w-4 h-4" />
-                    <span>Instagram</span>
-                  </button>
-                </div>
+                {copied && (
+                  <p className="text-emerald-600 text-sm font-medium mt-2 flex items-center space-x-1">
+                    <Check className="w-4 h-4" />
+                    <span>Link copied to clipboard!</span>
+                  </p>
+                )}
               </div>
 
               {/* Download Options */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-center space-x-4">
                 <button
                   onClick={downloadAsImage}
-                  className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download as Image</span>
@@ -216,7 +164,7 @@ export default function SocialShare({ userFootprint, userProfile }: SocialShareP
                 
                 <button
                   onClick={() => setShowShareModal(false)}
-                  className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all duration-300 font-semibold"
                 >
                   Close
                 </button>

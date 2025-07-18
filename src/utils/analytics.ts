@@ -122,27 +122,6 @@ class ShareAnalyticsService {
 
 export const shareAnalytics = new ShareAnalyticsService();
 
-// Utility functions for A/B testing share content
-export function getOptimalShareText(platform: string, userSegment: string): string {
-  // A/B test different share texts based on platform and user segment
-  const variants = {
-    twitter: {
-      environmental: "🌱 Just reduced my carbon footprint by X%! Every action counts in fighting climate change. Join me! #ClimateAction",
-      achievement: "🏆 Unlocked X climate achievements! Tracking my carbon footprint and making real progress. #Sustainability",
-      social: "👥 Join thousands of people making a difference! I've reduced my footprint by X% - what's your impact? #ClimateAction"
-    },
-    facebook: {
-      environmental: "I wanted to share something important with you - I've been tracking my carbon footprint and made real progress...",
-      achievement: "Excited to share a personal milestone! I've unlocked several climate achievements...",
-      social: "Did you know you can track your environmental impact? I've been using this amazing tool..."
-    }
-  };
-
-  return variants[platform as keyof typeof variants]?.[userSegment as keyof typeof variants.twitter] || 
-         variants[platform as keyof typeof variants]?.environmental || 
-         "Check out my climate progress!";
-}
-
 // Performance monitoring for share page load times
 export function trackSharePagePerformance(shareId: string) {
   if ('performance' in window) {
